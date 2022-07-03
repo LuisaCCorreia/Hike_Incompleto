@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
+
 export const Container = styled.div`
    display: flex;
    flex-direction: row;
 `;
 
 export const Main = styled.main`
-
+   display:flex;
+   padding: 5em;
 `;
+

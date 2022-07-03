@@ -129,6 +129,10 @@ export const NoteContent = styled.div`
    height: 100%;
 `;
 
+export const Filter = styled.div`
+
+`;
+
 export const NoteFooter = styled.div`
    display: flex;
    justify-content: space-between;

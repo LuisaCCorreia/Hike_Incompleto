@@ -1,25 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 
 import { Container, Wrapper, Content, Form, LabelButton, SpanErr, NoteList, Note, NoteContent, NoteFooter, TrashIcon } from './styles';
-
+import { Search } from '../Weather/styles';
+import { SearchIcon, SearchInput } from '../../components/searchBar';
 import Navbar from '../../components/Navbar';
 import Button from '../../components/Button';
 
 function Notes() {
    const { user } = useContext(AuthContext);
-
+   const [title, setTitle] = useState('Anotação');
    const [notes, setNotes] = useState([]);
+   const [filteredNotes, setFilteredNotes] = useState([]);
    // const [loading, setLoading] = useState(true);
    // const [isEmpty, setIsEmpty] = useState(false);
 
    const [text, setText] = useState('');
    const [nullNote, setNullNote] = useState(false);
+  
 
 
    useEffect(() => {
+
       loadNotes();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,17 +35,19 @@ function Notes() {
       .get()
       .then((snapshot) => {
          let list = [];
+  
+         snapshot.forEach((doc) => {          
 
-         snapshot.forEach((doc) => {
-            list.push({
+                list.push({
                id: doc.id,
+               title:doc.data().title,
                text: doc.data().text,
                created: doc.data().created,
                createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
             })
          });
-
-         setNotes(list);
+         
+         setNotes(list); 
       })
       .catch((err) => {
          console.log(err);
@@ -51,6 +57,19 @@ function Notes() {
    }
 
 
+       const handleFilter = (event) => {
+      const searchWord = event.target.value;
+      const newFilter = notes.filter((value) => {
+
+         return value.title.includes(searchWord);
+      })
+
+      setFilteredNotes(newFilter);
+   }
+   
+
+  
+
    async function handleAddNote(e) {
       e.preventDefault();
 
@@ -58,18 +77,21 @@ function Notes() {
          await firebase.firestore().collection('users')
          .doc(user.uid).collection('notes')
          .add({
+            title:title,
             text: text,
             created: new Date(),
          })
          .then(() => {
             console.log('Anotação salva com sucesso!');
             setText('');
+            setTitle('Anotação');
          })
          .catch((err) => {
             console.log(err);
          })
 
          setNullNote(false);
+         setFilteredNotes([]);
          loadNotes();
       }
       else {
@@ -117,8 +139,19 @@ function Notes() {
 
          <Wrapper>
             <Content>
+
+            <Search>
+                  <SearchIcon />
+         
+                  <SearchInput
+                     defaultValue= ''
+                     onChange= {handleFilter}
+                     placeholder='Pesquise uma anotação...'
+                     text='text'
+                  />
+               </Search>
                <Form onSubmit={handleAddNote}>
-                  <p>Anotação</p>
+                  <input value={title}  onChange={ (e) => setTitle(e.target.value)}></input>
                   <textarea
                      value={text}
                      onChange={ (e) => setText(e.target.value) }
@@ -130,12 +163,19 @@ function Notes() {
                      { nullNote && <SpanErr>Não é possível salvar uma anotação vazia!</SpanErr>}
                   </LabelButton>
                </Form>
+               
 
-               <NoteList>
-                  {notes.map((note, index) => (
+          
+
+               {filteredNotes.length !== 0 ? (
+                    <NoteList>
+
+                     {filteredNotes.map((note, index) => (
                      <Note key={index}>
                         <NoteContent>
+                           <span>{note.title}</span>
                            <span>{note.text}</span>
+                           
             
                            <NoteFooter>
                               <small>{note.createdFormated}</small>
@@ -148,7 +188,35 @@ function Notes() {
                         </NoteContent>
                      </Note>
                   ))}
-               </NoteList>
+                  </NoteList>
+               ) : (
+
+                  <NoteList>
+
+                     {notes.map((note, index) => (
+                     <Note key={index}>
+                        <NoteContent>
+                           <span>{note.title}</span>
+                           <span>{note.text}</span>
+                           
+            
+                           <NoteFooter>
+                              <small>{note.createdFormated}</small>
+                              <TrashIcon
+                                 onClick={() => handleDeleteNote(note.id)}
+                                 className='delete-icon'
+                                 size='1.3em'
+                              />
+                           </NoteFooter>
+                        </NoteContent>
+                     </Note>
+                  ))}
+                  </NoteList>
+
+
+               )
+            }                 
+               
             </Content>
          </Wrapper>
       </Container>
