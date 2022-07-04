@@ -308,6 +308,7 @@ export const NotesIcon = styled(CgFileDocument)`
    ${iconCSS}
 `;
 
+
 export const WeatherIcon = styled(TiWeatherWindyCloudy)`
    ${iconCSS}
 `;

@@ -8,6 +8,7 @@ import RoadMap from  '../pages/RoadMap';
 import Notes from  '../pages/Notes';
 import Weather from  '../pages/Weather';
 import Profile from  '../pages/Profile';
+import Quotes from '../pages/Quotes'
 
 function Routes() {
 	return (
@@ -20,6 +21,8 @@ function Routes() {
 			<Route exact path='/notes' component={Notes} isPrivate />
 			<Route exact path='/weather' component={Weather} isPrivate />
 			<Route exact path='/profile' component={Profile} isPrivate />
+			<Route exact path='/quotes' component={Quotes} isPrivate />
+
 		</Switch>
 	);
 }

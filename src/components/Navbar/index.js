@@ -3,7 +3,7 @@ import { AuthContext } from '../../contexts/auth';
 
 import { Link, NavLink } from 'react-router-dom';
 
-import { Container, Wrapper, Header, ContentTop, NavMenu, NavItem, RoadMapIcon, NotesIcon, WeatherIcon, ContentBottom, DropUpMenu, ProfileDropUp, AvatarDropUp, NavProfile, ProfileItem, Avatar, AvatarImage, User, DropUpItem, ExitIcon, ArrowMenu } from './styles';
+import { Container, Wrapper, Header, ContentTop, NavMenu, NavItem, RoadMapIcon, NotesIcon, WeatherIcon, ContentBottom, DropUpMenu, ProfileDropUp, AvatarDropUp, NavProfile, ProfileItem, Avatar, AvatarImage, User, DropUpItem, ExitIcon, ArrowMenu, QuotesIcon } from './styles';
 import Toggle from './Toggle';
 import avatar from '../../assets/avatar.png';
 // Logo, ImageLogo, ImageLogoMb,
@@ -67,6 +67,12 @@ function Navbar() {
                         <NavItem>
                            <WeatherIcon />
                            <span>Clima</span>
+                        </NavItem>
+                     </NavLink>
+                     <NavLink to='/quotes' activeClassName="is-active">
+                        <NavItem>
+                          
+                           <span>Frase Inspiradora</span>
                         </NavItem>
                      </NavLink>
                   </NavMenu>
