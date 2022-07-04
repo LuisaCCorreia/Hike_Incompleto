@@ -71,7 +71,7 @@ function Navbar() {
                      </NavLink>
                      <NavLink to='/quotes' activeClassName="is-active">
                         <NavItem>
-                          
+                          <QuotesIcon/>
                            <span>Frase Inspiradora</span>
                         </NavItem>
                      </NavLink>

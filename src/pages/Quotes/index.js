@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Buffer } from 'buffer';
-import { Container,  Main, SpanErr} from './styles';
+import React, { useState} from 'react';
+import { Container, Wrapper, Content, QuoteDiv, RandomQuote, LabelButton, QuoteLeft, QuoteRight} from './styles';
 //import { SearchIcon, SearchInput } from '../../components/searchBar';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
@@ -8,59 +7,47 @@ import Navbar from '../../components/Navbar';
 
 function Quotes() {
 
+   const api = axios.create({baseURL: 'https://positive-vibes-api.herokuapp.com'});
+
 
    const [data, setData] = useState({})
-   const [error, setError] = useState(false);
-   var Buffer = require('buffer/').Buffer
+
  //  const [searchThinker, setSearchThinker] = useState('');
 
    
 async function searchQuote() {
 
-   const pensador = await require('pensador-api');
+      api.get("/quotes/random").then((res) => {setData(res.data)}).catch((err) => {console.log("Houve um erro: " + err);});
 
 
-   pensador({term: "Elon Musk", max: 5})
 }
 
    return (
       <Container>
          <Navbar />
-         <Main>  
+         <Wrapper>  
 
-            {
-       /*  <Search onSubmit = {searchQuote}>
-                  <SearchIcon />
-         
-                  <SearchInput
-                    defaultValue={searchThinker}
-                     onChange = {(e) => setSearchThinker(e.target.value)}
-                     placeholder='Pesquise um pensador...'
-                     text='text'
-                  />
+            <Content>
 
-                  { error && <SpanErr>Local inválido, digite novamente.</SpanErr> }
-               </Search>
-*/
+            <QuoteDiv>
 
-            }
+              <RandomQuote>
 
- 
+               <LabelButton>
 
-       
-            <div>
+               <button onClick={searchQuote}>Gerar frase</button> 
 
-               <h1>Teste</h1>
+               </LabelButton>
 
-               <button onClick={searchQuote}>Aperte aqui</button>
+               <QuoteLeft/><p>{data?.data}</p> <QuoteRight/>
 
-               {
-                  
-               }
-             
+              </RandomQuote>             
 
-            </div>
-         </Main>
+            </QuoteDiv>
+
+            </Content>       
+
+         </Wrapper>
       </Container>
    );
 }

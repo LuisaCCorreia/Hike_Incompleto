@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { RiRoadMapLine, CgFileDocument, TiWeatherWindyCloudy, MdLogout, RiArrowDropUpLine } from '../../styles/icons';
+import { RiRoadMapLine, CgFileDocument, TiWeatherWindyCloudy, MdLogout, RiArrowDropUpLine, BsFillChatQuoteFill} from '../../styles/icons';
 
 const flexColumnCSS = css`
    display: flex;
@@ -319,6 +319,16 @@ export const ExitIcon = styled(MdLogout)`
 `;
 
 export const ArrowMenu = styled(RiArrowDropUpLine)`
+   ${iconCSS}
+   display: none;
+   transition: .0s;
+
+   @media (min-width: 1024px) {
+      display: inline;
+   }
+`;
+
+export const QuotesIcon = styled(BsFillChatQuoteFill)`
    ${iconCSS}
    display: none;
    transition: .0s;

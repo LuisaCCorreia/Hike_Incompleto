@@ -18,3 +18,6 @@ export { RiMoonClearFill } from "react-icons/ri";
 
 export { RiArrowDropUpLine } from 'react-icons/ri';
 export { MdLogout } from 'react-icons/md';
+export {ImQuotesLeft} from 'react-icons/im'
+export {ImQuotesRight} from 'react-icons/im'
+export {BsFillChatQuoteFill} from 'react-icons/bs'
